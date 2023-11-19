@@ -1,6 +1,7 @@
 from flask import Flask, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
+from email_validator import validate_email, EmailNotValidError
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:1234@localhost/postgres'
@@ -12,14 +13,25 @@ class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(50), unique=True, nullable=False)
     password = db.Column(db.String(60), nullable=False)
+    
+
+def is_valid_email(email):
+    try:
+        # validate and get info
+        v = validate_email(email)
+        return True
+    except EmailNotValidError as e:
+        # email is not valid, exception message is human-readable
+        print(str(e))
+        return False
 
 @app.route('/register', methods=['POST'])
 def register():
     data = request.get_json()
 
-    # Check if the username is already taken
-    if User.query.filter_by(username=data['username']).first():
-        return jsonify({'message': 'Username already taken'}), 400
+    #check if valid email
+    if not is_valid_email(data['username']):
+     return jsonify({'message': 'Invalid email address'}), 400
 
     # Hash the password before storing it in the database
     hashed_password = bcrypt.generate_password_hash(data['password']).decode('utf-8')
