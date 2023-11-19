@@ -1,0 +1,16 @@
+ prints the user table SELECT * FROM "user";
+
+ /create_user endpoint that creates a new account that stores email addresses as username and password for a new account
+ /login compares the username and password hash
+ /stored_login endpoint that GETS the users stored passwords and usernames (key="website name" username="user" password="password")
+
+ frontend
+
+ login page 
+ create user page 
+ 
+ Once your logged in functionality:
+ - Plus sign create button that displays three fields to stores website name, username, password
+ - After the plus row we display the formatted table of stored login info
+ - Each item has a delete button and a confirmation message that you want to delete the saved password
+ - Copy to clipboard  button copies password or username to clipboard
