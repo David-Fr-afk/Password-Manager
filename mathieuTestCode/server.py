@@ -3,7 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:1234@localhost/postgres'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:yo@localhost/passwordBase'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 bcrypt = Bcrypt(app)
@@ -42,21 +42,7 @@ def login():
     else:
         return jsonify({'message': 'Invalid username or password'}), 401
 
-@app.route('/users', methods=['GET'])
-def get_users():
-    users = User.query.all()
-    user_list = [{'id': user.id, 'username': user.username, 'password': user.password} for user in users]
-    return jsonify({'users': user_list})
-
-
 if __name__ == '__main__':
     with app.app_context():
         db.create_all()
     app.run(debug=True)
-
-
-
-
-
-
-
