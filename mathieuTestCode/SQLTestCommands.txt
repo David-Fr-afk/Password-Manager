@@ -14,3 +14,5 @@
  - After the plus row we display the formatted table of stored login info
  - Each item has a delete button and a confirmation message that you want to delete the saved password
  - Copy to clipboard  button copies password or username to clipboard
+
+ We also need a separate python file to generate encryption keys
