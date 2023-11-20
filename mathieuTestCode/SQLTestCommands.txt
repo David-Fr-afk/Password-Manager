@@ -1,18 +1,26 @@
- prints the user table SELECT * FROM "user";
+ prints the user table SELECT * FROM "users";
+ Test delete: curl -X DELETE http://localhost:5000/user/user@example.com
+ Test get: curl http://localhost:5000/user/user@example.com
+ Test create: curl -X POST -H "Content-Type: application/json" -d "{\"email\": \"user@example.com\", \"password\": \"secure_password\"}" http://localhost:5000/register
+ Test update: curl -X PUT -H "Content-Type: application/json" -d "{\"hashed_password\": \"new_secure_password\", \"encryption_key\": \"new_encryption_key\"}" http://localhost:5000/user/user@example.com
+ Test Add Credentials: curl -X POST -H "Content-Type: application/json" -d "{\"website_name\": \"example\", \"website_username\": \"user123\", \"website_password\": \"password123\"}" -b cookies.txt http://localhost:5000/user/user@example.com/add_credentials
+ Test Get Credentials: curl -X POST -H "Content-Type: application/json" -d "{\"user_email\": \"user@example.com\"}" -b cookies.txt http://localhost:5000/user/user@example.com/get_credentials
+ Test Login: curl -X POST -H "Content-Type: application/json" -d "{\"email\": \"user@example.com\", \"password\": \"secure_password\"}" -c cookies.txt http://localhost:5000/login
+ Test Logout: curl -X POST -b cookies.txt http://localhost:5000/logout
 
- /create_user endpoint that creates a new account that stores email addresses as username and password for a new account
- /login compares the username and password hash
- /stored_login endpoint that GETS the users stored passwords and usernames (key="website name" username="user" password="password")
 
- frontend
+Create the table: 
 
- login page 
- create user page 
- 
+CREATE TABLE users (
+    email VARCHAR(120) PRIMARY KEY NOT NULL UNIQUE,
+    hashed_password VARCHAR(60) NOT NULL,
+    encryption_key VARCHAR(255) NOT NULL,
+    credentials BYTEA
+);
+
  Once your logged in functionality:
  - Plus sign create button that displays three fields to stores website name, username, password
  - After the plus row we display the formatted table of stored login info
  - Each item has a delete button and a confirmation message that you want to delete the saved password
  - Copy to clipboard  button copies password or username to clipboard
 
- We also need a separate python file to generate encryption keys

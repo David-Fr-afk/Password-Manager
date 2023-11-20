@@ -1,0 +1,15 @@
+User Registration:
+
+When a user registers on your password manager website, generate a unique encryption key for that user.
+Associate the encryption key with the user's email and password.
+Store the hashed password and the associated encryption key in the database.
+User Authentication:
+
+When a user logs in, verify their identity by checking the entered password against the stored hashed password.
+If the password is correct, retrieve the associated encryption key.
+Encrypting and Decrypting Passwords:
+
+Use the encryption key to encrypt the user's saved passwords before storing them in the database.
+When the user wants to view their saved passwords, decrypt the stored encrypted passwords using the encryption key.
+
+- We need to rebuild how users are authenticated because the libraries are broken and updated 
