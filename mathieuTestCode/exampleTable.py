@@ -39,3 +39,5 @@ class User(db.Model):
         # Implement encryption logic using the encryption key
         # Example: encrypt(website_info, self.encryption_key)
         pass
+
+    # The encryption key is also hashed to ensure it's not stored in plain text 
