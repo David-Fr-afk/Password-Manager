@@ -1,0 +1,15 @@
+Creating the user table:
+
+CREATE TABLE "user" (
+    id SERIAL PRIMARY KEY,
+    email VARCHAR(120) UNIQUE NOT NULL,
+    hashed_password VARCHAR(255) NOT NULL,
+    salt VARCHAR(16) NOT NULL,
+    credentials JSON DEFAULT '{}'
+);
+
+Helpful SQL Commands:
+
+SELECT * FROM "user"; (This prints the entire table)
+
+DROP TABLE "user"; (This deletes the table)
