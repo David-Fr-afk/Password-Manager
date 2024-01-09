@@ -1,0 +1,53 @@
+import requests
+
+BASE_URL = 'http://127.0.0.1:5000'
+
+# Change the user variable for each test
+user_variable = '5'
+
+# Register user
+register_data = {'email': f'test{user_variable}@example.com', 'password': 'test123'}
+register_response = requests.post(f'{BASE_URL}/register', json=register_data)
+print(f'Register Response: {register_response.status_code} - {register_response.text}')
+
+# Login user
+login_data = {'email': f'test{user_variable}@example.com', 'password': 'test123'}
+login_response = requests.post(f'{BASE_URL}/login', json=login_data)
+print(f'Login Response: {login_response.status_code} - {login_response.json()}')
+
+# Extract the token from the login response
+token = login_response.json().get('token', '')
+
+# Ensure the token is in bytes format
+encoded_token = token.encode('utf-8')
+
+# Add credentials
+add_credentials_data = {'website_name': 'example.com', 'website_username': 'test_user', 'website_password': 'test_password'}
+headers = {'Authorization': f'Bearer {token}'}
+add_credentials_response = requests.post(f'{BASE_URL}/add_credentials', json=add_credentials_data, headers=headers)
+
+# Check the status code before attempting to parse the response as JSON
+if add_credentials_response.status_code == 200:
+    print(f'Add Credentials Response: {add_credentials_response.status_code} - {add_credentials_response.json()}')
+else:
+    print(f'Add Credentials Response: {add_credentials_response.status_code} - {add_credentials_response.text}')
+
+# View credentials
+view_credentials_response = requests.get(f'{BASE_URL}/user/test{user_variable}@example.com/credentials', headers=headers)
+
+# Check the status code before attempting to parse the response as JSON
+if view_credentials_response.status_code == 200:
+    print(f'View Credentials Response: {view_credentials_response.status_code} - {view_credentials_response.json()}')
+else:
+    print(f'View Credentials Response: {view_credentials_response.status_code} - {view_credentials_response.text}')
+
+# Logout user
+logout_response = requests.post(f'{BASE_URL}/logout', headers=headers)
+
+# Handle potential JSONDecodeError
+try:
+    print(f'Logout Response: {logout_response.status_code} - {logout_response.json()}')
+except requests.exceptions.JSONDecodeError:
+    print(f'Logout Response: {logout_response.status_code} - {logout_response.text}')
+
+
