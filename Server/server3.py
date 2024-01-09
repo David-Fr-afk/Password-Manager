@@ -51,6 +51,7 @@ def login():
 
     user = User.query.filter_by(email=email).first()
 
+    # Adds the user's unique salt to their hashed password
     if user and check_password_hash(user.hashed_password, password + user.salt):
         login_user(user)
         return jsonify({'message': 'Logged in successfully'})
