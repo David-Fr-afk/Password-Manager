@@ -3,13 +3,16 @@ from flask_login import LoginManager, UserMixin, login_user, login_required, log
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
 from secrets import token_hex  # Import the 'secrets' module for secure random generation
+from flask_cors import CORS
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'wefsdfsdfgrea*&YB#*BDNS'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:1234@localhost/postgres'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:postgres@localhost/postgres'
 
 db = SQLAlchemy(app)
 login_manager = LoginManager(app)
+
+CORS(app)  
 
 # User model
 class User(UserMixin, db.Model):
@@ -57,6 +60,34 @@ def login():
         return jsonify({'message': 'Logged in successfully'})
     else:
         return jsonify({'message': 'Invalid credentials'}), 401
+    
+@app.route('/save_credentials', methods=['POST'])
+@login_required
+def save_credentials():
+    data = request.get_json()
+    website = data.get('website')
+    username = data.get('username')
+    password = data.get('password')
+
+    # Encrypt the password using the user's unique salt
+    encrypted_password = generate_password_hash(password + current_user.salt, method='pbkdf2:sha256')
+
+    # Retrieve existing credentials
+    user_credentials = current_user.credentials.copy()
+
+    # Update or add the new credentials to the dictionary
+    user_credentials[website] = {'username': username, 'password': encrypted_password}
+
+    # Update the User model with the modified credentials
+    current_user.credentials = user_credentials
+    db.session.commit()
+
+    return jsonify({'message': 'Credentials saved successfully'})
+
+@app.route('/view_credentials', methods=['GET'])
+@login_required
+def view_credentials():
+    return jsonify(current_user.credentials)
 
 # Modifies current_user variable that's how it knows which user to logout
 @app.route('/logout', methods=['POST'])
@@ -64,11 +95,6 @@ def login():
 def logout():
     logout_user()
     return jsonify({'message': 'Logged out successfully'})
-
-@app.route('/protected', methods=['GET'])
-@login_required
-def dashboard():
-    return f'Hello, {current_user.id}!'
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=5000)
