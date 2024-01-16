@@ -3,6 +3,7 @@ from flask_login import LoginManager, UserMixin, login_user, login_required, log
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
 from secrets import token_hex  # Import the 'secrets' module for secure random generation
+from flask_cors import CORS
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'wefsdfsdfgrea*&YB#*BDNS'
@@ -10,6 +11,8 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:postgres@localhos
 
 db = SQLAlchemy(app)
 login_manager = LoginManager(app)
+
+CORS(app)  
 
 # User model
 class User(UserMixin, db.Model):
