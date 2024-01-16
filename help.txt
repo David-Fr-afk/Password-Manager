@@ -13,3 +13,27 @@ Helpful SQL Commands:
 SELECT * FROM "user"; (This prints the entire table)
 
 DROP TABLE "user"; (This deletes the table)
+
+JSON PAYLOADS:
+
+/add_credentials [POST]
+
+{
+    "website": "example.com",
+    "username": "testuser",
+    "password": "testpassword"
+}
+
+/register [POST]
+
+{
+  "email": "example@example.com",
+  "password": "123456"
+}
+
+/login [POST]
+
+{
+  "email": "example@example.com",
+  "password": "123456"
+}
