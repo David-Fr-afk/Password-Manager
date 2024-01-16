@@ -6,7 +6,7 @@ from secrets import token_hex  # Import the 'secrets' module for secure random g
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'wefsdfsdfgrea*&YB#*BDNS'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:postgres@localhost/postgres'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:1234@localhost/postgres'
 
 db = SQLAlchemy(app)
 login_manager = LoginManager(app)
