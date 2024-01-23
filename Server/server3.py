@@ -4,15 +4,17 @@ from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
 from secrets import token_hex  # Import the 'secrets' module for secure random generation
 from flask_cors import CORS
+from datetime import timedelta
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'wefsdfsdfgrea*&YB#*BDNS'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:postgres@localhost/postgres'
+app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(minutes=30)
 
 db = SQLAlchemy(app)
 login_manager = LoginManager(app)
 
-CORS(app)  
+CORS(app, supports_credentials=True)  
 
 # User model
 class User(UserMixin, db.Model):
@@ -56,7 +58,7 @@ def login():
 
     # Adds the user's unique salt to their hashed password
     if user and check_password_hash(user.hashed_password, password + user.salt):
-        login_user(user)
+        login_user(user, remember=True)  # or login_user(user, remember=False) for a session until browser close
         return jsonify({'message': 'Logged in successfully'})
     else:
         return jsonify({'message': 'Invalid credentials'}), 401
@@ -89,7 +91,6 @@ def save_credentials():
 def view_credentials():
     return jsonify(current_user.credentials)
 
-# Modifies current_user variable that's how it knows which user to logout
 @app.route('/logout', methods=['POST'])
 @login_required
 def logout():
