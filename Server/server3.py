@@ -70,7 +70,7 @@ def save_credentials():
     website = data.get('website')
     username = data.get('username')
     password = data.get('password')
-    store_as_plain_text = data.get('store_as_plain_text', False) 
+    store_as_plain_text = data.get('store_as_plain_text', True) # Optional to be saved as a sha256 Hash
 
     if store_as_plain_text:
         # Store password as plain text for testing
