@@ -4,7 +4,8 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { API_REGISTER, API_LOGIN} from './api';
 
-function App() {
+
+function App({ onLogin }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -31,6 +32,7 @@ function App() {
     try {
       const response = await axios.post(API_LOGIN, { email, password }, { withCredentials: true });
       console.log(response.data.message);
+      onLogin(true)
     } catch (error) {
       if (error.response) {
         console.error('Error logging in:', error.response.data.message);
