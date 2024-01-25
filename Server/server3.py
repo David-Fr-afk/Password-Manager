@@ -91,6 +91,53 @@ def save_credentials():
 def view_credentials():
     return jsonify(current_user.credentials)
 
+@app.route('/edit_credentials/<website>', methods=['PUT'])
+@login_required
+def edit_credentials(website):
+    data = request.get_json()
+    username = data.get('username')
+    password = data.get('password')
+
+    # Encrypt the new password using the user's unique salt
+    encrypted_password = generate_password_hash(password + current_user.salt, method='pbkdf2:sha256')
+
+    # Retrieve existing credentials
+    user_credentials = current_user.credentials.copy()
+
+    # Check if the website exists in the credentials dictionary
+    if website in user_credentials:
+        # Update the existing credentials with new information
+        user_credentials[website]['username'] = username
+        user_credentials[website]['password'] = encrypted_password
+
+        # Update the User model with the modified credentials
+        current_user.credentials = user_credentials
+        db.session.commit()
+
+        return jsonify({'message': f'Credentials for {website} updated successfully'})
+    else:
+        return jsonify({'error': f'Credentials for {website} not found'})
+
+@app.route('/delete_credentials/<website>', methods=['DELETE'])
+@login_required
+def delete_credentials(website):
+    # Retrieve existing credentials
+    user_credentials = current_user.credentials.copy()
+
+    # Check if the website exists in the credentials dictionary
+    if website in user_credentials:
+        # Remove the credentials for the specified website
+        del user_credentials[website]
+
+        # Update the User model with the modified credentials
+        current_user.credentials = user_credentials
+        db.session.commit()
+
+        return jsonify({'message': f'Credentials for {website} deleted successfully'})
+    else:
+        return jsonify({'error': f'Credentials for {website} not found'})
+
+
 @app.route('/logout', methods=['POST'])
 @login_required
 def logout():
