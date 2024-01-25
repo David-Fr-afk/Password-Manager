@@ -78,6 +78,12 @@ function Dashboard() {
     try {
       // Save the new credential
       await handleSaveCredentials(newCredential);
+
+      setNewCredential({
+        website: '',
+        username: '',
+        password: '',
+      });
   
       // Refetch all credentials including the new one
       await handleViewCredentials();
