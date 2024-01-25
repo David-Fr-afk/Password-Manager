@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
+import { Route, Routes, Navigate } from 'react-router-dom';
 import App from './App';
 import Dashboard from './Dashboard';
 import { useNavigate } from 'react-router-dom';
