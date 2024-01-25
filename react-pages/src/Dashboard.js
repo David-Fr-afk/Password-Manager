@@ -94,49 +94,54 @@ function Dashboard() {
   };
 
   return (
-    <div>
-      <h1>Dashboard</h1>
-      <button onClick={handleLogout}>Logout</button>
+    <div className="dashboard-container">
+      <h1 className="dashboard-heading">Dashboard</h1>
+      <button className="logout-btn" onClick={handleLogout}>
+        Logout
+      </button>
   
-      <h2 className='credtitle ADD'>Add New Credentials</h2>
-      <form>
-        <label className='inputbox'>
-          Website:
+      <h2 className='add-credential-title'>Add New Credentials</h2>
+      <form className="add-credential-form">
+        <div className="input-group">
+          <label className="input-label">Website:</label>
           <input
             type="text"
             value={newCredential.website}
             onChange={(e) => setNewCredential({ ...newCredential, website: e.target.value })}
+            className="input-box"
           />
-        </label>
-        <label className='inputbox'>
-          Username:
+        </div>
+        <div className="input-group">
+          <label className="input-label">Username:</label>
           <input
             type="text"
             value={newCredential.username}
             onChange={(e) => setNewCredential({ ...newCredential, username: e.target.value })}
+            className="input-box"
           />
-        </label>
-        <label className='inputbox'>
-          Password:
+        </div>
+        <div className="input-group">
+          <label className="input-label">Password:</label>
           <input
             type="password"
             value={newCredential.password}
             onChange={(e) => setNewCredential({ ...newCredential, password: e.target.value })}
+            className="input-box"
           />
-        </label>
-        <button type="button" onClick={handleAddCredential}>
-          +
+        </div>
+        <button type="button" onClick={handleAddCredential} className="add-btn">
+          Add
         </button>
       </form>
   
-      <h2 className='credtitle'>Credentials</h2>
-      <table>
+      
+      <table className="credentials-table">
         <thead>
           <tr>
             <th>Website</th>
             <th>Username</th>
             <th>Password</th>
-            <th>Delete</th>
+            <th>Action</th>
           </tr>
         </thead>
         <tbody>
@@ -146,8 +151,8 @@ function Dashboard() {
               <td>{credential.username}</td>
               <td>{credential.password}</td>
               <td>
-                <button type="button" onClick={() => handleDeleteCredential(credential.website)}>
-                  -
+                <button className="delete-btn" onClick={() => handleDeleteCredential(credential.website)}>
+                  Delete
                 </button>
               </td>
             </tr>
@@ -156,7 +161,7 @@ function Dashboard() {
       </table>
     </div>
   );
-}  
+}
 
 export default Dashboard;
 

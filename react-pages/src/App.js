@@ -45,37 +45,37 @@ function App({ onLogin }) {
 
   return (
     <div className="container">
-    <div className="min-h-screen flex items-center justify-center">
-      <div className="bg-white p-8 rounded shadow-md w-96 text-center">
-        <h1 className="text-2xl font-bold mb-4 title">Password Manager</h1>
-        <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2">Email:</label>
+      <div className="form-container">
+        <h1>Password Manager</h1>
+        <div className="input-group">
+          <label className="label" htmlFor="email">Email:</label>
           <input
             type="text"
+            id="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:border-blue-500"
+            className="input-box"
           />
         </div>
-        <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2">Password:</label>
+        <div className="input-group">
+          <label className="label" htmlFor="password">Password:</label>
           <input
             type="password"
+            id="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:border-blue-500"
+            className="input-box"
           />
         </div>
-        <div className="mb-4 flex justify-between">
-          <button onClick={registerUser} className="bg-blue-500 text-white px-4 py-2 rounded focus:outline-none register-btn">
+        <div className="button-group">
+          <button onClick={registerUser} className="button register-btn">
             Register
           </button>
-          <button onClick={loginUser} className="bg-green-500 text-white px-4 py-2 rounded focus:outline-nonelogin-btn">
+          <button onClick={loginUser} className="button login-btn">
             Login
           </button>
         </div>
       </div>
-    </div>
     </div>
   );
 }
