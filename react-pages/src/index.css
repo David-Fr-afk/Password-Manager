@@ -13,3 +13,34 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  margin: 0;
+}
+
+/* Style the container */
+.container {
+  background-color: white;
+  padding: 2rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Add margin to the right of the Register button */
+.container .register-btn {
+  margin-right: 0.5rem;
+}
+
+.container .title {
+  margin-bottom: 0.5rem;
+}
+
+/* Style the buttons */
+.container button {
+  margin-top: 1rem;
+  cursor: pointer;
+}
