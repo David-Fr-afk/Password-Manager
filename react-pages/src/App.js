@@ -2,7 +2,7 @@
 import './styles/index.css';
 import React, { useState } from 'react';
 import axios from 'axios';
-import { API_REGISTER, API_LOGIN, API_SAVE_CREDENTIALS, API_VIEW_CREDENTIALS, API_LOGOUT } from './api';
+import { API_REGISTER, API_LOGIN} from './api';
 
 function App() {
   const [email, setEmail] = useState('');
@@ -40,20 +40,6 @@ function App() {
     }
   };
   
-  const logoutUser = async () => {
-    try {
-      const response = await axios.post(API_LOGOUT, {}, { withCredentials: true });
-      console.log(response.data.message);
-    } catch (error) {
-      if (error.response) {
-        console.error('Error logging out:', error.response.data.message);
-      } else {
-        console.error('Error logging out:', error.message);
-      }
-    }
-  };
-  
-
 
   return (
     <div className="container">
