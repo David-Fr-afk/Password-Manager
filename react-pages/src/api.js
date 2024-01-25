@@ -6,3 +6,5 @@ export const API_LOGIN = `${API_BASE_URL}/login`;
 export const API_SAVE_CREDENTIALS = `${API_BASE_URL}/save_credentials`;
 export const API_VIEW_CREDENTIALS = `${API_BASE_URL}/view_credentials`;
 export const API_LOGOUT = `${API_BASE_URL}/logout`;
+export const API_DELETE_CREDENTIALS = `${API_BASE_URL}/delete_credentials`; 
+
